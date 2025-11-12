@@ -6,7 +6,8 @@ edition = "2021"
 [dependencies]
 tonic = "0.12"
 prost = "0.13"
-tokio = { version = "1.0", features = ["macros", "rt-multi-thread"] }
+safe_drive = "0.4"
+tokio = { version = "1.0", features = ["macros", "rt-multi-thread", "sync"] }
 
 [build-dependencies]
 protox = "0.7"

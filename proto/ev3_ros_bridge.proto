@@ -4,8 +4,8 @@ package ev3_ros_bridge;
 import "google/protobuf/empty.proto";
 
 service Ev3RosBridge {
-    rpc SendCmdVel (CmdVel) returns (WriteResponse);
-    rpc ReadSensorData (google.protobuf.Empty) returns (SensorData);
+    rpc ReadCmdVel (google.protobuf.Empty) returns (CmdVel);
+    rpc WriteSensorData (SensorData) returns (WriteResponse);
 }
 
 message SensorData {

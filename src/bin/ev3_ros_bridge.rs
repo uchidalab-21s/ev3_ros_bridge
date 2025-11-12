@@ -1,14 +1,12 @@
-mod pb {
-    tonic::include_proto!("ev3_ros_bridge");
-}
-
 use std::sync::Arc;
 use tokio::sync::Mutex;
 
-use pb::{ev3_ros_bridge_server::Ev3RosBridge, CmdVel, SensorData, WriteResponse};
 use safe_drive::msg::common_interfaces::geometry_msgs;
 use safe_drive::{context::Context, error::DynError, topic::subscriber::Subscriber};
 use tonic::{transport::Server, Request, Response, Status};
+
+use ev3_ros_bridge::pb;
+use pb::{ev3_ros_bridge_server::Ev3RosBridge, CmdVel, SensorData, WriteResponse};
 
 pub struct Ev3RosBridgeServer {
     subscriber: Arc<Mutex<Subscriber<geometry_msgs::msg::Twist>>>,

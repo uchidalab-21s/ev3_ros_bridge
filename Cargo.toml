@@ -1,0 +1,13 @@
+[package]
+name = "ev3_ros_bridge"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+tonic = "0.12"
+prost = "0.13"
+tokio = { version = "1.0", features = ["macros", "rt-multi-thread"] }
+
+[build-dependencies]
+protox = "0.7"
+tonic-build = "0.12"

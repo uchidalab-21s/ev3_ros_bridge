@@ -1,0 +1,26 @@
+syntax = "proto3";
+package ev3_ros_bridge;
+
+import "google/protobuf/empty.proto";
+
+service Ev3RosBridge {
+    rpc SendCmdVel (CmdVel) returns (WriteResponse);
+    rpc ReadSensorData (google.protobuf.Empty) returns (SensorData);
+}
+
+message SensorData {
+    bool touch_pressed_state = 1;
+    int32 gyro_angle = 2;
+    int32 gyro_rotational_speed = 3;
+    float ultrasonic_distance = 4;
+}
+
+message CmdVel {
+   double x = 1;
+   double y = 2;
+   double theta = 3;
+}
+
+message WriteResponse {
+    int32 size = 1;
+}

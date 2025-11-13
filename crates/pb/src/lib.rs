@@ -1,0 +1,1 @@
+tonic::include_proto!("ev3_ros_bridge");

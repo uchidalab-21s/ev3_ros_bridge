@@ -1,7 +1,3 @@
-pub mod pb {
-    tonic::include_proto!("ev3_ros_bridge");
-}
-
 use std::cell::RefCell;
 use tonic::Request;
 use pb::{CmdVel, SensorData, WriteResponse};

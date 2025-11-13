@@ -1,17 +1,17 @@
 use std::cell::RefCell;
 use tonic::Request;
-use pb::{CmdVel, SensorData, WriteResponse};
+use ev3_proto::{CmdVel, SensorData, WriteResponse};
 
 pub struct TonicHandle {
     tokio_runtime: tokio::runtime::Runtime,
-    client: RefCell<pb::ev3_ros_bridge_client::Ev3RosBridgeClient<tonic::transport::Channel>>,
+    client: RefCell<ev3_proto::ev3_ros_bridge_client::Ev3RosBridgeClient<tonic::transport::Channel>>,
 }
 
 impl TonicHandle {
     pub fn new(url: &str) -> Self {
         let tokio_runtime = tokio::runtime::Runtime::new().unwrap();
         let client = tokio_runtime.block_on(async {
-            pb::ev3_ros_bridge_client::Ev3RosBridgeClient::connect(url.to_string())
+            ev3_proto::ev3_ros_bridge_client::Ev3RosBridgeClient::connect(url.to_string())
                 .await
                 .unwrap()
         });

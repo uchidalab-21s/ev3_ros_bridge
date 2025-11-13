@@ -177,10 +177,20 @@ dependencies = [
 ]
 
 [[package]]
-name = "ev3_pb"
+name = "ev3_proto"
 version = "0.1.0"
 dependencies = [
- "pb",
+ "prost",
+ "protox",
+ "tonic",
+ "tonic-build",
+]
+
+[[package]]
+name = "ev3_proto_build"
+version = "0.1.0"
+dependencies = [
+ "ev3_proto",
  "prost",
  "tokio",
  "tonic",
@@ -190,8 +200,8 @@ dependencies = [
 name = "ev3_ros_bridge"
 version = "0.1.0"
 dependencies = [
+ "ev3_proto",
  "ev3_ros_msg",
- "pb",
  "prost",
  "safe_drive",
  "tokio",
@@ -680,16 +690,6 @@ dependencies = [
  "redox_syscall",
  "smallvec",
  "windows-link",
-]
-
-[[package]]
-name = "pb"
-version = "0.1.0"
-dependencies = [
- "prost",
- "protox",
- "tonic",
- "tonic-build",
 ]
 
 [[package]]

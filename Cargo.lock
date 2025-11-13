@@ -1497,7 +1497,3 @@ dependencies = [
  "quote",
  "syn",
 ]
-
-[[patch.unused]]
-name = "ev3_ros_msg"
-version = "0.1.0"

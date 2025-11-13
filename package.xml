@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>ev3_ros_bridge</name>
+  <version>0.0.0</version>
+  <description>EV3 ROS Bridge in Rust</description>
+  <maintainer email="sarukiti1891@gmail.com">sarukiti</maintainer>
+  <license>Apache License 2.0</license>
+
+  <depend>ev3_ros_msg</depend>
+
+  <export>
+    <build_type>ament_cargo</build_type>
+  </export>
+</package>

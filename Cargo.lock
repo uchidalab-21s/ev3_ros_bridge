@@ -180,12 +180,20 @@ dependencies = [
 name = "ev3_ros_bridge"
 version = "0.1.0"
 dependencies = [
+ "ev3_ros_msg",
  "prost",
  "protox",
  "safe_drive",
  "tokio",
  "tonic",
  "tonic-build",
+]
+
+[[package]]
+name = "ev3_ros_msg"
+version = "0.2.1"
+dependencies = [
+ "safe_drive",
 ]
 
 [[package]]
@@ -1489,3 +1497,7 @@ dependencies = [
  "quote",
  "syn",
 ]
+
+[[patch.unused]]
+name = "ev3_ros_msg"
+version = "0.1.0"

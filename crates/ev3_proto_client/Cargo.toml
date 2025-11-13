@@ -1,5 +1,5 @@
 [package]
-name = "ev3_proto_build"
+name = "ev3_proto_client"
 version = "0.1.0"
 edition.workspace = true
 

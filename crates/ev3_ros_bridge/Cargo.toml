@@ -4,7 +4,7 @@ version = "0.1.0"
 edition.workspace = true
 
 [dependencies]
-tonic = "0.12"
+tonic = "0.14.2"
 prost = "0.13"
 safe_drive = "0.4"
 ev3_ros_msg = { path = "/tmp/atsushi_ws/ev3_ros_msg" }

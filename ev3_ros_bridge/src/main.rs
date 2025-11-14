@@ -61,7 +61,7 @@ async fn main() -> Result<(), DynError> {
     let server = Ev3RosBridgeServer::new(Arc::new(Mutex::new(subscriber)), publisher);
 
     let args: Vec<String> = std::env::args().collect();
-    const DEFAULT_ADDRESS: &str = "127.0.0.1:50051";
+    const DEFAULT_ADDRESS: &str = "0.0.0.0:50051";
     let socket_address = match args.get(1) {
         Some(str) => str.parse().unwrap(), // コマンドライン引数にヘンな値が入ってたら落とす
         None => DEFAULT_ADDRESS.parse().unwrap(), // プログラマの責任で安全にunwrapできる

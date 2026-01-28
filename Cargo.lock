@@ -1107,6 +1107,7 @@ dependencies = [
  "libc",
  "mio",
  "pin-project-lite",
+ "signal-hook-registry",
  "socket2 0.6.1",
  "tokio-macros",
  "windows-sys 0.61.2",
@@ -1497,3 +1498,15 @@ dependencies = [
  "quote",
  "syn",
 ]
+
+[[patch.unused]]
+name = "atsushimove-rs"
+version = "0.1.0"
+
+[[patch.unused]]
+name = "atsushist-rs"
+version = "0.1.0"
+
+[[patch.unused]]
+name = "ev3_ros_bridge"
+version = "0.1.0"

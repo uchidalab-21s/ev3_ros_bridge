@@ -1,5 +1,6 @@
 use std::sync::Arc;
 use tokio::sync::Mutex;
+use tokio::time::{timeout, Duration};
 
 use safe_drive::msg::common_interfaces::geometry_msgs;
 use safe_drive::{context::Context, error::DynError, topic::{publisher::Publisher, subscriber::Subscriber}};
@@ -9,6 +10,9 @@ use tonic::{transport::Server, Request, Response, Status};
 
 use ev3_ros_bridge::pb;
 use pb::{ev3_ros_bridge_server::Ev3RosBridge, CmdVel, SensorData, WriteResponse};
+
+/// gRPCのread_cmd_velがタイムアウトするまでの時間
+const CMD_VEL_TIMEOUT_MS: u64 = 100;
 
 pub struct Ev3RosBridgeServer {
     subscriber: Arc<Mutex<Subscriber<geometry_msgs::msg::Twist>>>,
@@ -25,12 +29,26 @@ impl Ev3RosBridgeServer {
 impl Ev3RosBridge for Ev3RosBridgeServer {
     async fn read_cmd_vel(&self, _: Request<()>) -> Result<Response<CmdVel>, Status> {
         let mut subscriber = self.subscriber.lock().await;
-        let cmd_vel = subscriber.recv().await.unwrap();
-        Ok(Response::new(CmdVel {
-            x: cmd_vel.linear.x,
-            y: cmd_vel.linear.y,
-            theta: cmd_vel.angular.z,
-        }))
+        
+        // タイムアウト付きでcmd_velを待つ
+        match timeout(Duration::from_millis(CMD_VEL_TIMEOUT_MS), subscriber.recv()).await {
+            Ok(Ok(cmd_vel)) => {
+                // 新しいメッセージを受信
+                Ok(Response::new(CmdVel {
+                    x: cmd_vel.linear.x,
+                    y: cmd_vel.linear.y,
+                    theta: cmd_vel.angular.z,
+                }))
+            }
+            Ok(Err(_)) | Err(_) => {
+                // タイムアウトまたはエラー：NaNを返してクライアント側で判別可能にする
+                Ok(Response::new(CmdVel {
+                    x: f64::NAN,
+                    y: f64::NAN,
+                    theta: f64::NAN,
+                }))
+            }
+        }
     }
 
     async fn write_sensor_data(
@@ -68,11 +86,22 @@ async fn main() -> Result<(), DynError> {
     };
 
     println!("Server listening on {}", socket_address);
+    println!("Press Ctrl+C to stop.");
+
+    // Ctrl+C シグナルハンドラを設定
+    let shutdown_signal = async {
+        tokio::signal::ctrl_c()
+            .await
+            .expect("failed to install Ctrl+C handler");
+        println!("\nShutting down gracefully...");
+    };
 
     Server::builder()
         .add_service(pb::ev3_ros_bridge_server::Ev3RosBridgeServer::new(server))
-        .serve(socket_address)
+        .serve_with_shutdown(socket_address, shutdown_signal)
         .await
         .unwrap();
+    
+    println!("Server stopped.");
     Ok(())
 }
